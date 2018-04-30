@@ -1,0 +1,155 @@
+C166 COMPILER V7.53.0.0, ASC                                                               04/16/2018 10:54:09 PAGE 1   
+
+
+C166 COMPILER V7.53.0.0, COMPILATION OF MODULE ASC
+OBJECT MODULE PLACED IN ASC.OBJ
+COMPILER INVOKED BY: C:\Keil\C166\BIN\C166.EXE ASC.C COMPACT WARNINGLEVEL(3) OPTIMIZE(0,SPEED) MOD167 DEBUG TABS(2) 
+
+ stmt lvl     source
+
+    1         //****************************************************************************
+    2         // @Module        Asynchronous / Synchronous Serial Interface (ASC)
+    3         // @Filename      ASC.C
+    4         // @Project       v1.dav
+    5         //----------------------------------------------------------------------------
+    6         // @Controller    Infineon C164CI-8E
+    7         //
+    8         // @Compiler      KEIL C166
+    9         //
+   10         // @Codegenerator DAvE 2-0-0
+   11         //
+   12         // @Description   This file contains all functions that use the
+   13         //                Asynchronous / Synchronous Serial Interface.
+   14         //
+   15         //----------------------------------------------------------------------------
+   16         // @Date          16.04.2018 09:39:21
+   17         //
+   18         //****************************************************************************
+   19         
+   20         
+   21         //****************************************************************************
+   22         // @Project Includes
+   23         //****************************************************************************
+   24         
+   25         #include "MAIN.H"
+   26         
+   27         // USER CODE BEGIN (ASC_General,1)
+   28         
+   29         // USER CODE END
+   30         
+   31         
+   32         //***************************************************************************
+   33         // @Global Variables
+   34         //***************************************************************************
+   35         
+   36         // USER CODE BEGIN (ASC_General,2)
+   37         
+   38         // USER CODE END
+   39         
+   40         
+   41         //****************************************************************************
+   42         // @Function      void ASC_vInit(void)
+   43         //
+   44         //----------------------------------------------------------------------------
+   45         // @Description   This function initializes the ASC component. It effects all
+   46         //                necessary configurations of the SFR, depending on the selected
+   47         //                operating mode. The configuration determines whether the ASC
+   48         //                interrupts are to be released, and the priority of the 
+   49         //                released interrupt.
+   50         //
+   51         //----------------------------------------------------------------------------
+   52         // @Returnvalue   none
+   53         //
+   54         //----------------------------------------------------------------------------
+   55         // @Parameters    none
+C166 COMPILER V7.53.0.0, ASC                                                               04/16/2018 10:54:09 PAGE 2   
+
+   56         //
+   57         //----------------------------------------------------------------------------
+   58         // @Date          16.04.2018 09:39:21
+   59         //
+   60         //****************************************************************************
+   61         
+   62         void ASC_vInit(void)
+   63         {
+   64  1        ///  8-bit data asynchronous operation
+   65  1        ///  one stop bit
+   66  1        ///  divide clock by reload value + constant
+   67  1        ///  receiver disabled
+   68  1        S0CON  = 0x0001;
+   69  1      
+   70  1        //   ASC baudrate reload register
+   71  1        ///  baudrate =  9615,38 Baud
+   72  1        S0BG   = 0x0040;
+   73  1      
+   74  1        P3    |= 0x0400;    //  set P3.10 output latch (TXD0)
+   75  1        DP3   |= 0x0400;    /// set P3.10 direction control (TXD0 output)
+   76  1      
+   77  1      
+   78  1        // USER CODE BEGIN (ASC_Init,1)
+   79  1      
+   80  1        // USER CODE END
+   81  1      
+   82  1        S0R    = 1;         //  enable baudrate generator
+   83  1      }
+   84         
+   85         
+   86         //****************************************************************************
+   87         // @Function      void ASC_vSendData(uword Data)
+   88         //
+   89         //----------------------------------------------------------------------------
+   90         // @Description   This function writes a send data initialization word into
+   91         //                the S0TBUF register.
+   92         //                
+   93         //                Note:
+   94         //                In a multiprocessor system the master with this function
+   95         //                has the possibility to send data to the selected slave. To
+   96         //                achieve this, the 9th bit must set on zero.
+   97         //
+   98         //----------------------------------------------------------------------------
+   99         // @Returnvalue   none
+  100         //
+  101         //----------------------------------------------------------------------------
+  102         // @Parameters    data to be written into the S0TBUF register
+  103         //
+  104         //----------------------------------------------------------------------------
+  105         // @Date          16.04.2018 09:39:21
+  106         //
+  107         //****************************************************************************
+  108         
+  109         void ASC_vSendData(uword Data)
+  110         {
+  111  1        S0TBIR = 0;           // reset transmit buffer interrupt request flag
+  112  1        S0TBUF = Data;        // load transmit buffer register
+  113  1      }
+  114         
+  115         
+  116         
+  117         
+C166 COMPILER V7.53.0.0, ASC                                                               04/16/2018 10:54:09 PAGE 3   
+
+  118         // USER CODE BEGIN (ASC_General,3)
+  119         
+  120         // USER CODE END
+  121         
+
+
+MODULE INFORMATION:   INITIALIZED  UNINITIALIZED
+  CODE SIZE        =          70     --------
+  NEAR-CONST SIZE  =    --------     --------
+  FAR-CONST SIZE   =    --------     --------
+  HUGE-CONST SIZE  =    --------     --------
+  XHUGE-CONST SIZE =    --------     --------
+  NEAR-DATA SIZE   =    --------     --------
+  FAR-DATA SIZE    =    --------     --------
+  XHUGE-DATA SIZE  =    --------     --------
+  IDATA-DATA SIZE  =    --------     --------
+  SDATA-DATA SIZE  =    --------     --------
+  BDATA-DATA SIZE  =    --------     --------
+  HUGE-DATA SIZE   =    --------     --------
+  BIT SIZE         =    --------     --------
+  INIT'L SIZE      =    --------     --------
+END OF MODULE INFORMATION.
+
+
+C166 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

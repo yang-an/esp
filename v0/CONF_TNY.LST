@@ -1,0 +1,79 @@
+A166 MACRO ASSEMBLER  CONF_TNY                                                            04/16/2018 09:35:20 PAGE     1
+
+
+MACRO ASSEMBLER A166 V5.36.0.1
+OBJECT MODULE PLACED IN CONF_TNY.OBJ
+ASSEMBLER INVOKED BY: C:\Keil\C166\BIN\A166.EXE CONF_TNY.A66 SEGMENTED MOD167 SET(COMPACT) DEBUG EP
+
+LOC      OBJ             LINE     SOURCE
+
+                            1     ;------------------------------------------------------------------------------
+                            2     ;  This file is part of the 'RTX-166 tiny' Real-Time Operating System Package
+                            3     ;  Copyright KEIL ELEKTRONIK GmbH 1993 - 2004
+                            4     ;------------------------------------------------------------------------------
+                            5     ;  CONF_TNY.A66:  This code allows the configuration of the
+                            6     ;                 'RTX-166 tiny' Real-Time Operating System
+                            7     ;
+                            8     ;  To translate this file use A166 with the following invocation:
+                            9     ;
+                           10     ;     A166 CONF_TNY.A66 SET (Model)
+                           11     ;
+                           12     ;     Example:  A166 CONF_TNY.A66 SET (SMALL)
+                           13     ;
+                           14     ;  To link the modified CONF_TNY.OBJ file to your application use the following
+                           15     ;  L166 invocation:
+                           16     ;
+                           17     ;     L166 <your object file list>, CONF_TNY.OBJ <controls>
+                           18     ;
+                           19     ;------------------------------------------------------------------------------
+                           20     $CASE
+                           21     $IF NOT TINY
+                           22     $SEGMENTED
+                           23     $ENDIF
+                           24     ;------------------------------------------------------------------------------
+                           25     ;
+                           26     ;  'RTX-166 tiny' Hardware-Timer
+                           27     ;  =============================
+                           28     ;
+                           29     ;  With the following EQU statements the initialization of the 'RTX-166 tiny'
+                           30     ;  Hardware-Timer can be defined ('RTX-166 tiny' uses the 80C166 Timer 0 for 
+                           31     ;  controlling RTX-166 software timers).
+                           32     ;
+                           33     ;               ; define Hardware Timer 0 Overflow
+                           34     ;               ; (Input Frequency = 2.5 MHz @20MHz CPU clock)
+ 09C4                      35     INT_CLOCK       EQU     2500    ; default 2500 for 1 msec cycle time.
+                           36     ;
+                           37     ;               ; define Round-Robin Timeout in Hardware Timer Ticks.
+ 0000                      38     TIMESHARING     EQU     0       ; default is 5 ticks.
+                           39     ;               ; 
+                           40     ;               ; note: Round-Robin can be disabled by using value 0.
+                           41     ;
+                           42     ;  Note:   Round-Robin Task Switching can be disabled by using '0' as
+                           43     ;          value for the TIMESHARING equate.
+                           44     ;------------------------------------------------------------------------------
+                           45     
+                           46                     NAME    ?RTX166_TINY_CONFIG
+                           47     
+                           48     PUBLIC  ?RTX_TIMESHARING, ?RTX_CLOCK
+                           49     
+ 0000                      50     ?RTX_TIMESHARING  EQU   -TIMESHARING    
+ FFFFFFFFFFFFF63C          51     ?RTX_CLOCK        EQU   -INT_CLOCK
+                           52     
+                           53                       END
+A166 MACRO ASSEMBLER  CONF_TNY                                                            04/16/2018 09:35:20 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E              TYPE   VALUE             I  ATTRIBUTES
+
+?RTX166_TINY_CONFIG  ----   ----                 
+?RTX_CLOCK. . . . .  DATA64 -2500             A  PUB 
+?RTX_TIMESHARING. .  DATA3  0H                A  PUB 
+INT_CLOCK . . . . .  DATA16 9C4H              A  
+TIMESHARING . . . .  DATA3  0H                A  
+
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

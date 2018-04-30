@@ -1,0 +1,429 @@
+{\rtf1\ansi\deff0\deftab720{\fonttbl{\f0\fnil MS Sans Serif;}{\f1\fnil\fcharset2 Symbol;}{\f2\fswiss\fprq2 System;}{\f3\fnil Times New Roman;}{\f4\fswiss\fprq2 Arial;}}
+{\colortbl\red0\green0\blue0;\red0\green0\blue128;\red255\green0\blue0;}
+\deflang1031\pard\plain\f4\fs28\cf0 DAvE's Project Documentation
+\par \plain\f4\fs22\cf0
+\par \plain\f4\fs22\cf0 Project: \tab\tab\b v2.dav
+\par 
+\par \plain\f4\fs22\cf0 Controller: \tab\tab\b C164CI-8E
+\par \plain\f4\fs22\cf0 Compiler: \tab\tab\b KEIL C166
+\par \plain\f4\fs22\cf0 Memory Model: \tab\b COMPACT
+\par 
+\par \plain\f4\fs22\cf0 Date: \tab\tab\tab\b 30.04.2018 08:35:48
+\par 
+\par 
+\par \plain\f4\fs22\cf2\b Please read this document carefully and note
+\par \plain\f4\fs22\cf2\b the red-colored hints.
+\par 
+\par \plain\f4\fs22\cf2\b If you miss a file in the generated files list
+\par \plain\f4\fs22\cf2\b maybe you have forgotten to select the
+\par \plain\f4\fs22\cf2\b initialisation function of the related module.
+\par 
+\par \plain\f4\fs22\cf0 Generated Files:
+\plain\f4\fs20\cf0\b
+\par \tab\tab\tab MAIN.H
+\par \tab\tab\tab MAIN.C
+\par \tab\tab\tab ASC.H
+\par \tab\tab\tab ASC.C
+\par \tab\tab\tab IO.H
+\par \tab\tab\tab IO.C
+\par \tab\tab\tab V2.ASM
+\par 
+\par 
+\par \plain\f4\fs20\cf0
+\par \plain\f4\fs28\cf0\ul Main
+\par
+\par \plain\f4\fs24\cf0 Macros:\f4\fs20\cf0
+\par \plain\f4\fs24\cf0 Functions:\f4\fs20\cf0
+\par
+\par \plain\f4\fs20\cf0 \tab Function:
+\par \plain\f4\fs20\cf0\b \tab \tab void Project_Init(void)\plain\f4\fs20\cf0
+\par \tab Description:
+\par \plain\f4\fs20\cf0\i
+\tab \tab This function initializes the microcontroller.
+
+\par \plain\f4\fs20\cf0 \tab Returnvalue:
+\par \tab \tab \plain\f4\fs20\cf0\b none\plain\f4\fs20\cf0
+\par \plain\f4\fs20\cf0 \tab Parameters:
+\par \plain\f4\fs20\cf0\b 
+\tab \tab none
+
+\par
+\par \plain\f4\fs20\cf0 \tab Function:
+\par \plain\f4\fs20\cf0\b \tab \tab void main(void)\plain\f4\fs20\cf0
+\par \tab Description:
+\par \plain\f4\fs20\cf0\i
+\tab \tab This is the main function.
+
+\par \plain\f4\fs20\cf0 \tab Returnvalue:
+\par \tab \tab \plain\f4\fs20\cf0\b none\plain\f4\fs20\cf0
+\par \plain\f4\fs20\cf0 \tab Parameters:
+\par \plain\f4\fs20\cf0\b 
+\tab \tab none
+
+\par
+\par \plain\f4\fs24\cf0 Initialization:
+\par \plain\f4\fs20\cf0\b
+\par
+\tab the following initialization is made by the compiler EDE when you\par 
+\tab import the DAvE project\par 
+\par 
+\tab --- initialization of the SYSCON Register ---\par 
+\tab - 256 words system stack\par 
+\tab - the internal ROM area is mapped to segment 1\par 
+\tab - the segmentation is enabled (CSP is saved/restored during interrupt entry/exit)\par 
+\tab - the internal ROM is disabled: accesses to the ROM area use the external bus\par 
+\tab - the pin #BHE (byte high enable) is enabled\par 
+\tab - the system clock output is disabled\par 
+\tab - the pin #WR acts as #WRL and pin #BHE acts as #WRH\par 
+\tab - the on-chip X-Peripherals are enabled and can be accessed\par 
+\tab - pin #RSTIN is an input only\par 
+\tab - the on-chip oscillator watchdog is disabled\par 
+\tab - latched CS mode; CS signals are latch internally\par 
+\par 
+\tab --- initialization of the BUSCON 0-4 and ADRRSEL Registers 1-4 ---\par 
+\par 
+\tab ---------- external bus 0 is enabled ----------\par 
+\tab - 16-bit multiplexed bus\par 
+\tab - memory cycle time control: 15 waitstates\par 
+\tab - read/write delay control: activate signal 1 TCL after falling edge of ALE\par 
+\tab - chip select mode: address chip select\par 
+\tab - memory tristate control: 1 waitstate\par 
+\tab - ALE lengthening control: lengthened ALE signal\par 
+\par 
+\tab globally enable interrupts\par 
+\par 
+
+\par \plain\f4\fs20\cf0
+\par \plain\f4\fs28\cf0\ul Asynchronous / Synchronous Serial Interface (ASC)
+\par
+\par \plain\f4\fs24\cf0 Macros:\f4\fs20\cf0
+\par \plain\f4\fs24\cf0 Functions:\f4\fs20\cf0
+\par
+\par \plain\f4\fs20\cf0 \tab Function:
+\par \plain\f4\fs20\cf0\b \tab \tab void ASC_vInit(void)\plain\f4\fs20\cf0
+\par \tab Description:
+\par \plain\f4\fs20\cf0\i
+\tab \tab This function initializes the ASC component. It effects all
+
+\par \tab \tab necessary configurations of the SFR, depending on the selected
+
+\par \tab \tab operating mode. The configuration determines whether the ASC
+
+\par \tab \tab interrupts are to be released, and the priority of the
+
+\par \tab \tab released interrupt.
+
+\par \plain\f4\fs20\cf0 \tab Returnvalue:
+\par \tab \tab \plain\f4\fs20\cf0\b none\plain\f4\fs20\cf0
+\par \plain\f4\fs20\cf0 \tab Parameters:
+\par \plain\f4\fs20\cf0\b 
+\tab \tab none
+
+\par
+\par \plain\f4\fs20\cf0 \tab Function:
+\par \plain\f4\fs20\cf0\b \tab \tab void ASC_vSendData(uword Data)\plain\f4\fs20\cf0
+\par \tab Description:
+\par \plain\f4\fs20\cf0\i
+\tab \tab This function writes a send data initialization word into
+
+\par \tab \tab the S0TBUF register.
+
+\par \tab \tab Note:
+
+\par \tab \tab In a multiprocessor system the master with this function
+
+\par \tab \tab has the possibility to send data to the selected slave. To
+
+\par \tab \tab achieve this, the 9th bit must set on zero.
+
+\par \plain\f4\fs20\cf0 \tab Returnvalue:
+\par \tab \tab \plain\f4\fs20\cf0\b none\plain\f4\fs20\cf0
+\par \plain\f4\fs20\cf0 \tab Parameters:
+\par \plain\f4\fs20\cf0\b 
+\tab \tab data to be written into the S0TBUF register
+
+\par
+\par \plain\f4\fs20\cf0 \tab Function:
+\par \plain\f4\fs20\cf0\b \tab \tab void ASC_viIsrTx(void) interrupt S0TINT\plain\f4\fs20\cf0
+\par \tab Description:
+\par \plain\f4\fs20\cf0\i
+\tab \tab This is the transmit interrupt service routine for the ASC0.
+
+\par \tab \tab It is called when the sending of data is terminated
+
+\par \tab \tab (S0TIR is set).
+
+\par \tab \tab Please note that you have to add application specific
+
+\par \tab \tab code to this function.
+
+\par \plain\f4\fs20\cf0 \tab Returnvalue:
+\par \tab \tab \plain\f4\fs20\cf0\b none\plain\f4\fs20\cf0
+\par \plain\f4\fs20\cf0 \tab Parameters:
+\par \plain\f4\fs20\cf0\b 
+\tab \tab none
+
+\par
+\par \plain\f4\fs24\cf0 Initialization:
+\par \plain\f4\fs20\cf0\b
+\par
+\tab 8-bit data asynchronous operation\par 
+\tab one stop bit\par 
+\tab divide clock by reload value + constant\par 
+\tab receiver disabled\par 
+\par 
+\tab baudrate =  9615,38 Baud\par 
+\par 
+\tab enable transmit interrupt\par 
+\tab transmit interrupt priority level(ILVL) = 1\par 
+\tab transmit interrupt group level (GLVL) = 3\par 
+\par 
+\tab set P3.10 direction control (TXD0 output)\par 
+\par 
+
+\par \plain\f4\fs20\cf0
+\par \plain\f4\fs28\cf0\ul Ports
+\par
+\par \plain\f4\fs24\cf0 Macros:\f4\fs20\cf0
+\par
+\par
+\par \plain\f4\fs20\cf0 \tab Macro:
+\par \plain\f4\fs20\cf0\b \tab \tab IO_bReadPin(PinNr)\plain\f4\fs20\cf0
+\par \tab Description:
+\par \plain\f4\fs20\cf0\i
+\tab \tab This macro returns the status of the chosen port pin.
+
+\par \tab \tab Warning:
+
+\par \tab \tab All instructions that manipulate single bits or bit
+
+\par \tab \tab groups internally, use a read-modify-write sequence
+
+\par \tab \tab that accesses the whole word, which contains the
+
+\par \tab \tab specified bit(s).
+
+\par \tab \tab The read modify-write approach may be critical with
+
+\par \tab \tab hardware-effected bits. In this cases the hardware
+
+\par \tab \tab may change specific bits while the read-modify-write
+
+\par \tab \tab operation is in progress, where the writeback would
+
+\par \tab \tab overwrite the new bit value generated by the hardware.
+
+\par \tab \tab The solution is either the implemented hardware
+
+\par \tab \tab protection or realized through special programming
+
+\par \tab \tab (see "Particular Pipeline Effects" and "Protected
+
+\par \tab \tab Bits" in the User's Manual).
+
+\par \tab \tab Note:
+
+\par \tab \tab See the "Declaration of bit addressable SFRs"
+
+\par \tab \tab section in the header file for the available
+
+\par \tab \tab definitions for the parameter PinNr.
+
+\par \plain\f4\fs20\cf0 \tab Returnvalue:
+\par \tab \tab \plain\f4\fs20\cf0\b status of the chosen port pin\plain\f4\fs20\cf0
+\par \plain\f4\fs20\cf0 \tab Parameters:
+\par \plain\f4\fs20\cf0\b 
+\tab \tab pin to be read
+
+\par
+\par
+\par \plain\f4\fs20\cf0 \tab Macro:
+\par \plain\f4\fs20\cf0\b \tab \tab IO_vSetPin(PinNr)\plain\f4\fs20\cf0
+\par \tab Description:
+\par \plain\f4\fs20\cf0\i
+\tab \tab The chosen port pin is set to '1'.
+
+\par \tab \tab Warning:
+
+\par \tab \tab All instructions that manipulate single bits or bit
+
+\par \tab \tab groups internally, use a read-modify-write sequence
+
+\par \tab \tab that accesses the whole word, which contains the
+
+\par \tab \tab specified bit(s).
+
+\par \tab \tab The read modify-write approach may be critical with
+
+\par \tab \tab hardware-effected bits. In this cases the hardware
+
+\par \tab \tab may change specific bits while the read-modify-write
+
+\par \tab \tab operation is in progress, where the writeback would
+
+\par \tab \tab overwrite the new bit value generated by the hardware.
+
+\par \tab \tab The solution is either the implemented hardware
+
+\par \tab \tab protection or realized through special programming
+
+\par \tab \tab (see "Particular Pipeline Effects" and "Protected
+
+\par \tab \tab Bits" in the User's Manual).
+
+\par \tab \tab Note:
+
+\par \tab \tab See the "Declaration of bit addressable SFRs"
+
+\par \tab \tab section in the header file for the available
+
+\par \tab \tab definitions for the parameter PinNr.
+
+\par \plain\f4\fs20\cf0 \tab Returnvalue:
+\par \tab \tab \plain\f4\fs20\cf0\b none\plain\f4\fs20\cf0
+\par \plain\f4\fs20\cf0 \tab Parameters:
+\par \plain\f4\fs20\cf0\b 
+\tab \tab pin to be set to '1'
+
+\par
+\par
+\par \plain\f4\fs20\cf0 \tab Macro:
+\par \plain\f4\fs20\cf0\b \tab \tab IO_vResetPin(PinNr)\plain\f4\fs20\cf0
+\par \tab Description:
+\par \plain\f4\fs20\cf0\i
+\tab \tab The chosen port pin is set to '0'.
+
+\par \tab \tab Warning:
+
+\par \tab \tab All instructions that manipulate single bits or bit
+
+\par \tab \tab groups internally, use a read-modify-write sequence
+
+\par \tab \tab that accesses the whole word, which contains the
+
+\par \tab \tab specified bit(s).
+
+\par \tab \tab The read modify-write approach may be critical with
+
+\par \tab \tab hardware-effected bits. In this cases the hardware
+
+\par \tab \tab may change specific bits while the read-modify-write
+
+\par \tab \tab operation is in progress, where the writeback would
+
+\par \tab \tab overwrite the new bit value generated by the hardware.
+
+\par \tab \tab The solution is either the implemented hardware
+
+\par \tab \tab protection or realized through special programming
+
+\par \tab \tab (see "Particular Pipeline Effects" and "Protected
+
+\par \tab \tab Bits" in the User's Manual).
+
+\par \tab \tab Note:
+
+\par \tab \tab See the "Declaration of bit addressable SFRs"
+
+\par \tab \tab section in the header file for the available
+
+\par \tab \tab definitions for the parameter PinNr.
+
+\par \plain\f4\fs20\cf0 \tab Returnvalue:
+\par \tab \tab \plain\f4\fs20\cf0\b none\plain\f4\fs20\cf0
+\par \plain\f4\fs20\cf0 \tab Parameters:
+\par \plain\f4\fs20\cf0\b 
+\tab \tab pin to be set to '0'
+
+\par
+\par
+\par \plain\f4\fs20\cf0 \tab Macro:
+\par \plain\f4\fs20\cf0\b \tab \tab IO_uwReadPort(PortNr)\plain\f4\fs20\cf0
+\par \tab Description:
+\par \plain\f4\fs20\cf0\i
+\tab \tab This macro returns the value of the selected port. If a
+
+\par \tab \tab port has less than 16 pins, the unused bits are
+
+\par \tab \tab set to 0 in the return value
+
+\par \tab \tab The following definitions for PortNr are available:
+
+\par \tab \tab P0L,P0H,P1L,P1H,P3,P4,P5,P8
+
+\par \plain\f4\fs20\cf0 \tab Returnvalue:
+\par \tab \tab \plain\f4\fs20\cf0\b value of the port\plain\f4\fs20\cf0
+\par \plain\f4\fs20\cf0 \tab Parameters:
+\par \plain\f4\fs20\cf0\b 
+\tab \tab port to be read
+
+\par \plain\f4\fs24\cf0 Functions:\f4\fs20\cf0
+\par
+\par \plain\f4\fs20\cf0 \tab Function:
+\par \plain\f4\fs20\cf0\b \tab \tab void IO_vInit(void)\plain\f4\fs20\cf0
+\par \tab Description:
+\par \plain\f4\fs20\cf0\i
+\tab \tab This function initializes the IO component. It effects all
+
+\par \tab \tab necessary configurations of the SFR, depending on the selected
+
+\par \tab \tab operating mode.
+
+\par \tab \tab Note:
+
+\par \tab \tab Only those pins that are initialized are used as general IO.
+
+\par \tab \tab If the alternate function of a pin is used, this pin is
+
+\par \tab \tab initialized in the initialization function of the peripheral.
+
+\par \plain\f4\fs20\cf0 \tab Returnvalue:
+\par \tab \tab \plain\f4\fs20\cf0\b none\plain\f4\fs20\cf0
+\par \plain\f4\fs20\cf0 \tab Parameters:
+\par \plain\f4\fs20\cf0\b 
+\tab \tab none
+
+\par
+\par \plain\f4\fs24\cf0 Initialization:
+\par \plain\f4\fs20\cf0\b
+\par
+\tab P8.0 .. P8.7  switch on standard TTL input levels\par 
+\tab P3.8 .. P3.15 switch on standard TTL input levels\par 
+\tab P3.0 .. P3.7  switch on standard TTL input levels\par 
+\par 
+\tab no pin of port 0 low is used as general IO\par 
+\par 
+\tab no pin of port 0 high is used as general IO\par 
+\par 
+\tab P1L.4 is used as general IO\par 
+\tab -  the pin is configured as output\par 
+\tab -  the pin status is low level\par 
+\tab P1L.5 is used as general IO\par 
+\tab -  the pin is configured as output\par 
+\tab -  the pin status is low level\par 
+\tab P1L.6 is used as general IO\par 
+\tab -  the pin is configured as output\par 
+\tab -  the pin status is low level\par 
+\tab P1L.7 is used as general IO\par 
+\tab -  the pin is configured as output\par 
+\tab -  the pin status is low level\par 
+\par 
+\tab P1H.4 is used as general IO\par 
+\tab -  the pin is configured as input\par 
+\tab P1H.5 is used as general IO\par 
+\tab -  the pin is configured as input\par 
+\tab P1H.6 is used as general IO\par 
+\tab -  the pin is configured as input\par 
+\tab P1H.7 is used as general IO\par 
+\tab -  the pin is configured as input\par 
+\par 
+\tab no pin of port 3 is used as general IO\par 
+\par 
+\tab no pin of port 4 is used as general IO\par 
+\par 
+\tab no pin of port 5 is used as general input\par 
+\par 
+\tab no pin of port 8 is used as general IO\par 
+\par 
+
+}

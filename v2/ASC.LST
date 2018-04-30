@@ -1,0 +1,267 @@
+C166 COMPILER V7.53.0.0, ASC                                                               04/30/2018 10:06:50 PAGE 1   
+
+
+C166 COMPILER V7.53.0.0, COMPILATION OF MODULE ASC
+OBJECT MODULE PLACED IN ASC.OBJ
+COMPILER INVOKED BY: C:\Keil\C166\BIN\C166.EXE ASC.C COMPACT OPTIMIZE(0,SPEED) BROWSE MOD167 DEBUG TABS(2) 
+
+ stmt lvl     source
+
+    1         //****************************************************************************
+    2         // @Module        Asynchronous / Synchronous Serial Interface (ASC)
+    3         // @Filename      ASC.C
+    4         // @Project       v2.dav
+    5         //----------------------------------------------------------------------------
+    6         // @Controller    Infineon C164CI-8E
+    7         //
+    8         // @Compiler      KEIL C166
+    9         //
+   10         // @Codegenerator DAvE 2-0-0
+   11         //
+   12         // @Description   This file contains all functions that use the
+   13         //                Asynchronous / Synchronous Serial Interface.
+   14         //
+   15         //----------------------------------------------------------------------------
+   16         // @Date          30.04.2018 08:35:48
+   17         //
+   18         //****************************************************************************
+   19         
+   20         
+   21         //****************************************************************************
+   22         // @Project Includes
+   23         //****************************************************************************
+   24         
+   25         #include "MAIN.H"
+   26         
+   27         // USER CODE BEGIN (ASC_General,1)
+   28         
+   29         // USER CODE END
+   30         
+   31         
+   32         //***************************************************************************
+   33         // @Global Variables
+   34         //***************************************************************************
+   35         
+   36         // USER CODE BEGIN (ASC_General,2)
+   37         static char linebuf[LINELENGTH];
+   38         bit lineComplete = 1;
+   39         int i;
+   40         int gTid[NBR_TSK];
+   41         int pidx = 0, cidx = 0;
+   42         // USER CODE END
+   43         
+   44         
+   45         //****************************************************************************
+   46         // @Function      void ASC_vInit(void)
+   47         //
+   48         //----------------------------------------------------------------------------
+   49         // @Description   This function initializes the ASC component. It effects all
+   50         //                necessary configurations of the SFR, depending on the selected
+   51         //                operating mode. The configuration determines whether the ASC
+   52         //                interrupts are to be released, and the priority of the 
+   53         //                released interrupt.
+   54         //
+   55         //----------------------------------------------------------------------------
+C166 COMPILER V7.53.0.0, ASC                                                               04/30/2018 10:06:50 PAGE 2   
+
+   56         // @Returnvalue   none
+   57         //
+   58         //----------------------------------------------------------------------------
+   59         // @Parameters    none
+   60         //
+   61         //----------------------------------------------------------------------------
+   62         // @Date          30.04.2018 08:35:48
+   63         //
+   64         //****************************************************************************
+   65         
+   66         void ASC_vInit(void)
+   67         {
+   68  1        ///  8-bit data asynchronous operation
+   69  1        ///  one stop bit
+   70  1        ///  divide clock by reload value + constant
+   71  1        ///  receiver disabled
+   72  1        S0CON  = 0x0001;
+   73  1      
+   74  1        //   ASC baudrate reload register
+   75  1        ///  baudrate =  9615,38 Baud
+   76  1        S0BG   = 0x0040;
+   77  1      
+   78  1        ///  enable transmit interrupt
+   79  1        ///  transmit interrupt priority level(ILVL) = 1
+   80  1        ///  transmit interrupt group level (GLVL) = 3
+   81  1        S0TIC = 0x0047;
+   82  1      
+   83  1        P3    |= 0x0400;    //  set P3.10 output latch (TXD0)
+   84  1        DP3   |= 0x0400;    /// set P3.10 direction control (TXD0 output)
+   85  1      
+   86  1      
+   87  1        // USER CODE BEGIN (ASC_Init,1)
+   88  1        for (i = 0; i < LINELENGTH; i++)
+   89  1          linebuf[i] = ' ';
+   90  1        // USER CODE END
+   91  1      
+   92  1        S0R    = 1;         //  enable baudrate generator
+   93  1      }
+   94         
+   95         
+   96         //****************************************************************************
+   97         // @Function      void ASC_vSendData(uword Data)
+   98         //
+   99         //----------------------------------------------------------------------------
+  100         // @Description   This function writes a send data initialization word into
+  101         //                the S0TBUF register.
+  102         //                
+  103         //                Note:
+  104         //                In a multiprocessor system the master with this function
+  105         //                has the possibility to send data to the selected slave. To
+  106         //                achieve this, the 9th bit must set on zero.
+  107         //
+  108         //----------------------------------------------------------------------------
+  109         // @Returnvalue   none
+  110         //
+  111         //----------------------------------------------------------------------------
+  112         // @Parameters    data to be written into the S0TBUF register
+  113         //
+  114         //----------------------------------------------------------------------------
+  115         // @Date          30.04.2018 08:35:48
+  116         //
+  117         //****************************************************************************
+C166 COMPILER V7.53.0.0, ASC                                                               04/30/2018 10:06:50 PAGE 3   
+
+  118         
+  119         void ASC_vSendData(uword Data)
+  120         {
+  121  1        S0TBIR = 0;           // reset transmit buffer interrupt request flag
+  122  1        S0TBUF = Data;        // load transmit buffer register
+  123  1      }
+  124         
+  125         
+  126         //****************************************************************************
+  127         // @Function      void ASC_viIsrTx(void) interrupt S0TINT
+  128         //
+  129         //----------------------------------------------------------------------------
+  130         // @Description   This is the transmit interrupt service routine for the ASC0.
+  131         //                It is called when the sending of data is terminated
+  132         //                (S0TIR is set).
+  133         //                
+  134         //                Please note that you have to add application specific
+  135         //                code to this function.
+  136         //
+  137         //----------------------------------------------------------------------------
+  138         // @Returnvalue   none
+  139         //
+  140         //----------------------------------------------------------------------------
+  141         // @Parameters    none
+  142         //
+  143         //----------------------------------------------------------------------------
+  144         // @Date          30.04.2018 08:35:48
+  145         //
+  146         //****************************************************************************
+  147         
+  148         void ASC_viIsrTx(void) interrupt S0TINT
+  149         {
+  150  1        // USER CODE BEGIN (ASC_IsrTx,1)
+  151  1        static int idx = 1;
+  152  1        
+  153  1        if (idx < LINELENGTH) {
+  154  2          ASC_vSendData(linebuf[idx]);
+  155  2          linebuf[idx] = ' ';
+  156  2          idx++;
+  157  2        }
+  158  1        else {
+  159  2          
+  160  2          if (pidx != cidx) {
+  161  3            isr_send_signal(gTid[cidx]);
+  162  3            cidx = ++cidx % NBR_TSK;
+  163  3          }
+  164  2          
+  165  2          lineComplete = 1;
+  166  2          idx = 1;
+  167  2        }
+  168  1      
+  169  1        // USER CODE END
+  170  1      }
+  171         
+  172         
+  173         
+  174         
+  175         // USER CODE BEGIN (ASC_General,3)
+  176         
+  177         // Text in pBuf auf Zeile mit Nummer iZnr ausgeben
+  178         void DoPrintZ(unsigned char iZnr, char *pBuf) {
+  179  1        int idx = 4;
+C166 COMPILER V7.53.0.0, ASC                                                               04/30/2018 10:06:50 PAGE 4   
+
+  180  1        
+  181  1        // return on invalid line number
+  182  1        if (iZnr == 0 || iZnr > 4)
+  183  1          return;
+  184  1        
+  185  1        // return if queue is full
+  186  1        if (synchronize())
+  187  1          return;
+  188  1        
+  189  1        lineComplete = 0;
+  190  1        
+  191  1        linebuf[0] = '\x1B';
+  192  1        linebuf[1] = 'O';
+  193  1        linebuf[2] = 1;
+  194  1        linebuf[3] = iZnr;
+  195  1        
+  196  1        while (*pBuf && idx < LINELENGTH)
+  197  1          linebuf[idx++] = *pBuf++;
+  198  1        
+  199  1        ASC_vSendData(linebuf[0]);
+  200  1      }
+  201         // Displayinhalt loeschen
+  202         void ClrScr() {
+  203  1        DoPrintZ(1, "\xC");
+  204  1      }
+  205         
+  206         int synchronize(void){  
+  207  1        IEN = 0;
+  208  1        
+  209  1        if(!lineComplete) { // line is busy
+  210  2          if ((pidx+1)%NBR_TSK == cidx) { // queue is full
+  211  3            IEN = 1;
+  212  3            return -1; 
+  213  3          } 
+  214  2          
+  215  2          gTid[pidx] = os_running_task_id(); // get task id
+  216  2          pidx = ++pidx % NBR_TSK; // set index for next task
+  217  2          IEN = 1;
+  218  2          os_wait(K_SIG,0,0); // self knock-out
+  219  2          
+  220  2          // AFTER WAKEUP
+  221  2          return 0; 
+  222  2        } 
+  223  1        
+  224  1        IEN = 1;
+  225  1        return 0; 
+  226  1      } 
+  227         
+  228         // USER CODE END
+  229         
+
+
+MODULE INFORMATION:   INITIALIZED  UNINITIALIZED
+  CODE SIZE        =         710     --------
+  NEAR-CONST SIZE  =    --------     --------
+  FAR-CONST SIZE   =           2     --------
+  HUGE-CONST SIZE  =    --------     --------
+  XHUGE-CONST SIZE =    --------     --------
+  NEAR-DATA SIZE   =           8     --------
+  FAR-DATA SIZE    =          44     --------
+  XHUGE-DATA SIZE  =    --------     --------
+  IDATA-DATA SIZE  =    --------     --------
+C166 COMPILER V7.53.0.0, ASC                                                               04/30/2018 10:06:50 PAGE 5   
+
+  SDATA-DATA SIZE  =    --------     --------
+  BDATA-DATA SIZE  =    --------     --------
+  HUGE-DATA SIZE   =    --------     --------
+  BIT SIZE         =           1     --------
+  INIT'L SIZE      =          20     --------
+END OF MODULE INFORMATION.
+
+
+C166 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

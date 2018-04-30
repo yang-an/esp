@@ -1,0 +1,10 @@
+Message "Schalter auf Load stellen, dann Reset druecken"
+Connect EXTERNAMD "C:\Program Files (x86)\Phytec\Flashtools3\TARGET\KITCON\KITCON-164"
+
+ENABLE VERBOSE
+ENABLE CANCEL
+LOADHEX "D:\c164-t1\Documents\Plattner_Yang\v2\v2.H86"
+ERASECHIP
+DOWNLOAD
+DISCONNECT HWRESET
+Message "Schalter auf RUN stellen, dann Reset druecken"

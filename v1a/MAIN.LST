@@ -1,0 +1,214 @@
+C166 COMPILER V7.53.0.0, MAIN                                                              04/16/2018 10:54:09 PAGE 1   
+
+
+C166 COMPILER V7.53.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN MAIN.OBJ
+COMPILER INVOKED BY: C:\Keil\C166\BIN\C166.EXE MAIN.C COMPACT WARNINGLEVEL(3) OPTIMIZE(0,SPEED) MOD167 DEBUG TABS(2) 
+
+ stmt lvl     source
+
+    1         //****************************************************************************
+    2         // @Module        Main
+    3         // @Filename      MAIN.C
+    4         // @Project       v1.dav
+    5         //----------------------------------------------------------------------------
+    6         // @Controller    Infineon C164CI-8E
+    7         //
+    8         // @Compiler      KEIL C166
+    9         //
+   10         // @Codegenerator DAvE 2-0-0
+   11         //
+   12         // @Description   This file contains the Project initialization function.
+   13         //
+   14         //----------------------------------------------------------------------------
+   15         // @Date          16.04.2018 09:39:21
+   16         //
+   17         //****************************************************************************
+   18         
+   19         /*
+   20         ******************************************************************************
+   21         @Note
+   22         
+   23         
+   24         
+   25         
+   26         ******************************************************************************
+   27         */
+   28         
+   29         //****************************************************************************
+   30         // @Project Includes
+   31         //****************************************************************************
+   32         
+   33         #include "MAIN.H"
+   34         
+   35         // USER CODE BEGIN (Main,0)
+   36         
+   37         // USER CODE END
+   38         
+   39         
+   40         //***************************************************************************
+   41         // @Global Variables
+   42         //***************************************************************************
+   43         
+   44         // USER CODE BEGIN (Main,3)
+   45         unsigned tsk1_cnt = 0;
+   46         char ch;
+   47         // USER CODE END
+   48         
+   49         
+   50         //****************************************************************************
+   51         // @Function      void Project_Init(void)
+   52         //
+   53         //----------------------------------------------------------------------------
+   54         // @Description   This function initializes the microcontroller.
+   55         //
+C166 COMPILER V7.53.0.0, MAIN                                                              04/16/2018 10:54:09 PAGE 2   
+
+   56         //----------------------------------------------------------------------------
+   57         // @Returnvalue   none
+   58         //
+   59         //----------------------------------------------------------------------------
+   60         // @Parameters    none
+   61         //
+   62         //----------------------------------------------------------------------------
+   63         // @Date          16.04.2018 09:39:21
+   64         //
+   65         //****************************************************************************
+   66         
+   67         void Project_Init(void)
+   68         {
+   69  1      
+   70  1        // USER CODE BEGIN (Project_Init,0)
+   71  1      
+   72  1        // USER CODE END
+   73  1      
+   74  1        /// the following initialization is made by the compiler EDE when you
+   75  1        /// import the DAvE project
+   76  1      
+   77  1        /// --- initialization of the SYSCON Register ---
+   78  1        ///- 256 words system stack
+   79  1        ///- the internal ROM area is mapped to segment 1
+   80  1        ///- the segmentation is enabled (CSP is saved/restored during interrupt entry/exit)
+   81  1        ///- the internal ROM is disabled: accesses to the ROM area use the external bus
+   82  1        ///- the pin #BHE (byte high enable) is enabled
+   83  1        ///- the system clock output is disabled
+   84  1        ///- the pin #WR acts as #WRL and pin #BHE acts as #WRH
+   85  1        ///- the on-chip X-Peripherals are enabled and can be accessed
+   86  1        ///- pin #RSTIN is an input only
+   87  1        ///- the on-chip oscillator watchdog is disabled
+   88  1        ///- latched CS mode; CS signals are latch internally
+   89  1      
+   90  1      
+   91  1        /// --- initialization of the BUSCON 0-4 and ADRRSEL Registers 1-4 ---
+   92  1      
+   93  1        /// ---------- external bus 0 is enabled ----------
+   94  1        ///- 16-bit multiplexed bus
+   95  1        ///- memory cycle time control: 15 waitstates
+   96  1        ///- read/write delay control: activate signal 1 TCL after falling edge of ALE  
+   97  1        ///- chip select mode: address chip select 
+   98  1        ///- memory tristate control: 1 waitstate
+   99  1        ///- ALE lengthening control: lengthened ALE signal
+  100  1      
+  101  1      
+  102  1        // initializes the IO ports
+  103  1        IO_vInit();
+  104  1      
+  105  1        // initializes the Asynchronous/Synchronous Serial Interface (ASC)
+  106  1        ASC_vInit();
+  107  1      
+  108  1        // USER CODE BEGIN (Project_Init,1)
+  109  1      
+  110  1        // USER CODE END
+  111  1      
+  112  1        /// globally enable interrupts
+  113  1        IEN = 1;
+  114  1      }
+  115         
+  116         
+  117         //****************************************************************************
+C166 COMPILER V7.53.0.0, MAIN                                                              04/16/2018 10:54:09 PAGE 3   
+
+  118         // @Function      void main(void)
+  119         //
+  120         //----------------------------------------------------------------------------
+  121         // @Description   This is the main function.
+  122         //
+  123         //----------------------------------------------------------------------------
+  124         // @Returnvalue   none
+  125         //
+  126         //----------------------------------------------------------------------------
+  127         // @Parameters    none
+  128         //
+  129         //----------------------------------------------------------------------------
+  130         // @Date          16.04.2018 09:39:21
+  131         //
+  132         //****************************************************************************
+  133         
+  134         
+  135           // USER CODE BEGIN (Main,1)
+  136         void start_tsk(void) _task_ 0
+  137         {
+  138  1        // USER CODE END
+  139  1      
+  140  1        Project_Init();
+  141  1      
+  142  1        // USER CODE BEGIN (Main,2)
+  143  1        //printf("Hello World");
+  144  1        
+  145  1        os_create_task(1);
+  146  1        os_create_task(2);
+  147  1        os_delete_task(0);
+  148  1      }
+  149         
+  150         void commando_tsk() _task_ 1 {
+  151  1        while (1) {
+  152  2          tsk1_cnt++;
+  153  2          
+  154  2          ch = GetKey();
+  155  2          ToggleLED(ch);
+  156  2          switch (GetKey()) {
+  157  3            case '1':
+  158  3              ASC_vSendData('1');
+  159  3              ASC_vSendData('\n');
+  160  3              break;
+  161  3            case '2':
+  162  3              ASC_vSendData('2');
+  163  3              ASC_vSendData('\n');
+  164  3              break;
+  165  3            case '3':
+  166  3              ASC_vSendData('3');
+  167  3              ASC_vSendData('\n');
+  168  3              break;
+  169  3            case '4':
+  170  3              ASC_vSendData('4');
+  171  3              ASC_vSendData('\n');
+  172  3              break;
+  173  3          }
+  174  2          os_wait(K_SIG, 0, 0);
+  175  2        }
+  176  1      }
+  177           // USER CODE END
+  178         
+
+C166 COMPILER V7.53.0.0, MAIN                                                              04/16/2018 10:54:09 PAGE 4   
+
+
+MODULE INFORMATION:   INITIALIZED  UNINITIALIZED
+  CODE SIZE        =         170     --------
+  NEAR-CONST SIZE  =    --------     --------
+  FAR-CONST SIZE   =    --------     --------
+  HUGE-CONST SIZE  =    --------     --------
+  XHUGE-CONST SIZE =    --------     --------
+  NEAR-DATA SIZE   =           3     --------
+  FAR-DATA SIZE    =    --------     --------
+  XHUGE-DATA SIZE  =    --------     --------
+  IDATA-DATA SIZE  =    --------     --------
+  SDATA-DATA SIZE  =    --------     --------
+  BDATA-DATA SIZE  =    --------     --------
+  HUGE-DATA SIZE   =    --------     --------
+  BIT SIZE         =    --------     --------
+  INIT'L SIZE      =           6     --------
+END OF MODULE INFORMATION.
+
+
+C166 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,53 @@
+;------------------------------------------------------------------------------
+;  This file is part of the 'RTX-166 tiny' Real-Time Operating System Package
+;  Copyright KEIL ELEKTRONIK GmbH 1993 - 2004
+;------------------------------------------------------------------------------
+;  CONF_TNY.A66:  This code allows the configuration of the
+;                 'RTX-166 tiny' Real-Time Operating System
+;
+;  To translate this file use A166 with the following invocation:
+;
+;     A166 CONF_TNY.A66 SET (Model)
+;
+;     Example:  A166 CONF_TNY.A66 SET (SMALL)
+;
+;  To link the modified CONF_TNY.OBJ file to your application use the following
+;  L166 invocation:
+;
+;     L166 <your object file list>, CONF_TNY.OBJ <controls>
+;
+;------------------------------------------------------------------------------
+$CASE
+$IF NOT TINY
+$SEGMENTED
+$ENDIF
+;------------------------------------------------------------------------------
+;
+;  'RTX-166 tiny' Hardware-Timer
+;  =============================
+;
+;  With the following EQU statements the initialization of the 'RTX-166 tiny'
+;  Hardware-Timer can be defined ('RTX-166 tiny' uses the 80C166 Timer 0 for 
+;  controlling RTX-166 software timers).
+;
+;		; define Hardware Timer 0 Overflow
+;               ; (Input Frequency = 2.5 MHz @20MHz CPU clock)
+INT_CLOCK	EQU	2500	; default 2500 for 1 msec cycle time.
+;
+;		; define Round-Robin Timeout in Hardware Timer Ticks.
+TIMESHARING	EQU	0	; default is 5 ticks.
+;		; 
+;		; note: Round-Robin can be disabled by using value 0.
+;
+;  Note:   Round-Robin Task Switching can be disabled by using '0' as
+;          value for the TIMESHARING equate.
+;------------------------------------------------------------------------------
+
+		NAME	?RTX166_TINY_CONFIG
+
+PUBLIC	?RTX_TIMESHARING, ?RTX_CLOCK, INT_CLOCK
+
+?RTX_TIMESHARING  EQU	-TIMESHARING	
+?RTX_CLOCK	  EQU	-INT_CLOCK
+
+		  END
